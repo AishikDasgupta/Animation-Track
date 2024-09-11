@@ -9,7 +9,7 @@ You can see this sleek animation track in action below:
 ![inputAsset](https://github.com/user-attachments/assets/74cf2a00-9b94-4eb4-bffa-61cd5c43f65f)
 
 
-> _Add a GIF showcasing your animation_.
+> _A GIF showcasing the animation_.
 
 ## 🌟 Features
 
