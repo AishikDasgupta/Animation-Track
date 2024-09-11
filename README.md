@@ -6,7 +6,8 @@ A minimalist image carousel built with **HTML5**, **CSS3**, and **JavaScript**. 
 
 You can see this sleek animation track in action below:
 
-![Demo of Animation Track](demo.gif)
+![inputAsset](https://github.com/user-attachments/assets/74cf2a00-9b94-4eb4-bffa-61cd5c43f65f)
+
 
 > _Add a GIF showcasing your animation_.
 
