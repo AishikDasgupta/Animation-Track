@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Animation Track</title>
+  <!-- Embedded CSS -->
+  <style>
+    body {
+      height: 100vh;
+      width: 100vw;
+      background-color: rgb(46, 46, 46);
+      margin: 0rem;
+      overflow: hidden;
+    }
+
+    #image-track {
+      display: flex;
+      gap: 4vmin;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(0%, -50%); 
+      user-select: none; /* Prevent image highlighting */
+    }
+
+    #image-track > .image {
+      width: 40vmin;
+      height: 56vmin;
+      object-fit: cover;
+      object-position: 100% center;
+    }
+
+    body.menu-toggled > .meta-link > span {
+      color: rgb(30, 30, 30);
+    }
+
+    #source-link {
+      bottom: 60px;
+    }
+
+    #source-link > i {
+      color: rgb(94, 106, 210);
+    }
+
+    #yt-link > i {
+      color: rgb(239, 83, 80);
+    }
+
+    .meta-link {
+      align-items: center;
+      backdrop-filter: blur(3px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      bottom: 10px;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+      cursor: pointer;  
+      display: inline-flex;
+      gap: 5px;
+      left: 10px;
+      padding: 10px 20px;
+      position: fixed;
+      text-decoration: none;
+      transition: background-color 400ms, border-color 400ms;
+      z-index: 10000;
+    }
+
+    .meta-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .meta-link > i, .meta-link > span {
+      height: 20px;
+      line-height: 20px;
+    }
+
+    .meta-link > span {
+      color: white;
+      font-family: "Rubik", sans-serif;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="image-track" data-mouse-down-at="0" data-prev-percentage="0">
+    <img class="image" src="https://plus.unsplash.com/premium_photo-1686878940830-9031355ec98c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" draggable="false" />
+    <img class="image" src="https://images.unsplash.com/photo-1473615695634-d284ec918736?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" draggable="false" />
+    <img class="image" src="https://images.unsplash.com/photo-1618202133208-2907bebba9e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" draggable="false" />
+    <img class="image" src="https://images.unsplash.com/photo-1495805442109-bf1cf975750b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" draggable="false" />
+    <img class="image" src="https://images.unsplash.com/photo-1548021682-1720ed403a5b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" draggable="false" />
+    <img class="image" src="https://images.unsplash.com/photo-1496753480864-3e588e0269b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2134&q=80" draggable="false" />
+    <img class="image" src="https://images.unsplash.com/photo-1613346945084-35cccc812dd5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1759&q=80" draggable="false" />
+    <img class="image" src="https://images.unsplash.com/photo-1525157381335-8d400396ad8a?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" draggable="false" />
+  </div>
+
+  <!-- Embedded JavaScript-->
+    <script>
+      const track = document.getElementById("image-track");
+    
+      const handleOnScroll = (e) => {
+        // Adjust the multipliers to control scroll speed
+        const scrollDeltaX = e.deltaX * 0.2;
+        const scrollDeltaY = e.deltaY * 0.2;
+        const maxDelta = window.innerWidth / 2;
+    
+        // Calculate percentage for horizontal scroll
+        const percentageX = (scrollDeltaX / maxDelta) * -100;
+        // Calculate percentage for vertical scroll (not used in this example)
+        const percentageY = (scrollDeltaY / maxDelta) * -100;
+    
+        // Use only horizontal scrolling for image track movement
+        const percentage = percentageX;
+        const nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
+        const nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+    
+        track.dataset.percentage = nextPercentage;
+    
+        track.animate({
+          transform: `translate(${nextPercentage}%, -50%)`
+        }, { duration: 1200, fill: "forwards" });
+    
+        for (const image of track.getElementsByClassName("image")) {
+          image.animate({
+            objectPosition: `${100 + nextPercentage}% center`
+          }, { duration: 1200, fill: "forwards" });
+        }
+    
+        track.dataset.prevPercentage = track.dataset.percentage; // Update previous percentage
+      };
+    
+      // Listen for the scroll event
+      window.addEventListener('wheel', (e) => handleOnScroll(e));
+    </script>
+</body>
+</html>
